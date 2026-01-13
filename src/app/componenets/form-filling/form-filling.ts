@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 interface MedicalCondition {
   icd9: string;
@@ -104,7 +105,7 @@ export class FormFillingComponent implements OnInit {
     '250.00': { icd9: '250.00', icd10: 'E11.9', description: 'Type 2 diabetes mellitus' }
   };
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private router: Router) {
     this.formGroup = this.fb.group({
       patientSIN: ['', [Validators.required, Validators.pattern(/^\d{3}-\d{3}-\d{3}$/)]],
       diagnoses: this.fb.array([]),
@@ -396,9 +397,11 @@ export class FormFillingComponent implements OnInit {
 
     console.log('Form data:', formData);
 
-    // In real app, this would call backend API
-    alert('✓ Form generation started! Processing patient data...');
-    // Navigate to review mode or show loading screen
+    // Generate a temporary form ID (in real app, this would come from backend)
+    const formId = `ISP2519-${Date.now()}`;
+
+    // Navigate to review page
+    this.router.navigate(['/review', formId]);
   }
 
   isOtherChecked(diagnosisIndex: number): boolean {
