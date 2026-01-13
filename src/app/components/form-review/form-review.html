@@ -1,0 +1,172 @@
+<div class="review-container">
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="patient-info">
+            <a routerLink="/form/isp-2519" class="back-link">
+                <i data-lucide="arrow-left"></i>
+            </a>
+            <div>
+                <div class="patient-name">{{ patientFullName() }}</div>
+                <div class="patient-details">
+                    DOB: {{ patient().dob }} | SIN: {{ patient().sin }} | Form: {{ patientFormType() }}
+                </div>
+            </div>
+        </div>
+        <div class="top-actions">
+            <div class="progress-text">
+                <strong>{{ approvedCount() }}</strong> of <strong>{{ totalReviewItems() }}</strong> items reviewed
+            </div>
+            <button class="btn btn-secondary" (click)="saveDraft()">
+                <i data-lucide="save"></i> Save Draft
+            </button>
+            <button class="btn btn-primary" [disabled]="!allItemsReviewed()" (click)="finalize()">
+                <i data-lucide="check-circle"></i> Finalize & Download
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Left: PDF Viewer (Real PDF) -->
+        <div class="pdf-panel">
+            <!-- Loading State -->
+            <div *ngIf="pdfLoading()" class="pdf-loading">
+                <div class="spinner"></div>
+                <p>Loading PDF...</p>
+            </div>
+
+            <!-- Error State -->
+            <div *ngIf="pdfError()" class="pdf-error">
+                <i data-lucide="alert-circle"></i>
+                <p>{{ pdfError() }}</p>
+                <button class="btn btn-secondary" (click)="loadPdf()">
+                    <i data-lucide="refresh-cw"></i> Retry
+                </button>
+            </div>
+
+            <!-- PDF Embed -->
+            <iframe #pdfIframe *ngIf="pdfUrl() && !pdfLoading() && !pdfError()" [src]="pdfUrl()" class="pdf-iframe"
+                title="ISP-2519 Form Preview"></iframe>
+        </div>
+
+        <!-- Right: Review Panel -->
+        <div class="review-panel">
+            <div class="review-header">
+                <div class="review-title">
+                    <i data-lucide="bot"></i>
+                    Review AI-Generated Responses
+                </div>
+                <div class="review-subtitle">Verify each field and approve or edit as needed. Changes appear on the PDF
+                    in real-time.</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" [style.width.%]="progressPercentage()"></div>
+                </div>
+            </div>
+
+            <div class="review-content">
+                <!-- Show pending items -->
+                <div *ngIf="pendingItems().length > 0">
+                    <div *ngFor="let item of pendingItems()" class="review-item" [id]="'review-item-' + item.id">
+                        <div class="field-header">
+                            <div class="field-info">
+                                <span class="section-badge">Section {{ item.sectionNumber }}</span>
+                                <div class="field-title">{{ item.fieldTitle }}</div>
+                            </div>
+                            <div [ngClass]="getConfidenceBadgeClass(item.confidence)">
+                                <i *ngIf="item.confidence === 'needs-review'" data-lucide="alert-triangle"></i>
+                                <i *ngIf="item.confidence === 'high'" data-lucide="check-circle-2"></i>
+                                <i *ngIf="item.confidence === 'medium'" data-lucide="info"></i>
+                                <i *ngIf="item.confidence === 'low'" data-lucide="help-circle"></i>
+                                <span *ngIf="item.confidence === 'needs-review'">Needs Review</span>
+                                <span *ngIf="item.confidence === 'high'">High Confidence</span>
+                                <span *ngIf="item.confidence === 'medium'">Medium Confidence</span>
+                                <span *ngIf="item.confidence === 'low'">Low Confidence</span>
+                            </div>
+                        </div>
+
+                        <!-- Needs Review Flag -->
+                        <div *ngIf="item.needsReviewMessage" class="needs-review-flag">
+                            <div class="flag-icon">
+                                <i *ngIf="item.confidence === 'needs-review'" data-lucide="alert-triangle"></i>
+                                <i *ngIf="item.confidence !== 'needs-review'" data-lucide="message-circle"></i>
+                            </div>
+                            <div class="flag-text">
+                                <strong *ngIf="item.confidence === 'needs-review'">Clinical judgment required.</strong>
+                                {{ item.needsReviewMessage }}
+                            </div>
+                        </div>
+
+                        <!-- LLM Response -->
+                        <div *ngIf="!item.editing"
+                            [ngClass]="{'llm-response': !item.isCheckbox, 'checkbox-response': item.isCheckbox}">
+                            <div *ngIf="!item.isCheckbox" class="llm-label">
+                                <i data-lucide="sparkles"></i> AI Response
+                            </div>
+                            <div *ngIf="item.isCheckbox" class="checkbox-large" [class.checked]="item.checkboxValue">
+                                <i *ngIf="item.checkboxValue" data-lucide="check"></i>
+                            </div>
+                            <div [ngClass]="{'llm-text': !item.isCheckbox, 'checkbox-label': item.isCheckbox}">
+                                <span [innerHTML]="item.llmResponse.replace(/\n/g, '<br>')"></span>
+                            </div>
+                            <div class="source-info">
+                                <i data-lucide="file-text"></i>
+                                <span *ngIf="item.isCheckbox">Based on: </span>
+                                <span *ngIf="!item.isCheckbox">Extracted from: </span>
+                                {{ item.source }}
+                            </div>
+                        </div>
+
+                        <!-- Edit Mode -->
+                        <div *ngIf="item.editing" class="edit-mode">
+                            <textarea class="edit-textarea" [(ngModel)]="item.editValue" rows="5"
+                                placeholder="Edit the response..."></textarea>
+                            <div class="edit-actions">
+                                <button class="btn-save" (click)="saveEdit(item)">
+                                    <i data-lucide="save"></i> Save Changes
+                                </button>
+                                <button class="btn-cancel" (click)="cancelEdit(item)">
+                                    <i data-lucide="x"></i> Cancel
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div *ngIf="!item.editing" class="action-buttons">
+                            <button class="btn-approve" (click)="approveField(item)">
+                                <i data-lucide="check"></i>
+                                <span *ngIf="item.confidence === 'needs-review'">Confirm & Add to PDF</span>
+                                <span *ngIf="item.confidence !== 'needs-review'">Approve & Add to PDF</span>
+                            </button>
+                            <button class="btn-edit" (click)="editField(item)">
+                                <i data-lucide="pencil"></i>
+                                <span>Edit</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- All Items Reviewed -->
+                <div *ngIf="allItemsReviewed()" class="no-items">
+                    <div class="no-items-icon">
+                        <i data-lucide="check-circle-2"></i>
+                    </div>
+                    <h3>All items reviewed!</h3>
+                    <p>The PDF has been filled with all approved responses. Click "Finalize & Download" to save the
+                        completed form.</p>
+                    <button class="btn btn-primary btn-large" (click)="finalize()">
+                        <i data-lucide="download"></i> Finalize & Download PDF
+                    </button>
+                </div>
+
+                <!-- Empty state -->
+                <div *ngIf="totalReviewItems() === 0 && !pdfLoading()" class="no-items">
+                    <div class="no-items-icon">
+                        <i data-lucide="file-question"></i>
+                    </div>
+                    <h3>No review items</h3>
+                    <p>No AI-generated responses to review for this form.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
