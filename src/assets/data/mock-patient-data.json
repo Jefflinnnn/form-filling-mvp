@@ -1,0 +1,178 @@
+{
+    "patient": {
+        "firstName": "Jane",
+        "lastName": "Smith",
+        "sin": "123-456-789",
+        "dob": "1978-05-12",
+        "address": {
+            "street": "123 Main Street",
+            "city": "Toronto",
+            "province": "Ontario",
+            "postalCode": "M5V 1A1"
+        },
+        "phone": "416-555-1234",
+        "email": "jane.smith@email.com",
+        "height": "165",
+        "weight": "68"
+    },
+    "provider": {
+        "name": "Dr. Sarah Johnson",
+        "credentials": "MD, CCFP",
+        "cpsoNumber": "12345",
+        "clinicName": "Downtown Medical Clinic",
+        "address": "456 Healthcare Blvd, Toronto, ON M5T 2K3",
+        "phone": "416-555-5678",
+        "fax": "416-555-5679"
+    },
+    "formData": {
+        "applicationDate": "2024-10-15",
+        "lastWorkDate": "2024-08-30",
+        "medicalConditions": [
+            {
+                "condition": "Major Depressive Disorder",
+                "icd9": "296.3",
+                "icd10": "F32.2",
+                "onsetDate": "2024-06",
+                "isPrimary": true
+            },
+            {
+                "condition": "Generalized Anxiety Disorder",
+                "icd9": "300.02",
+                "icd10": "F41.1",
+                "onsetDate": "2024-07",
+                "isPrimary": false
+            }
+        ]
+    },
+    "reviewItems": [
+        {
+            "id": 1,
+            "sectionNumber": 5,
+            "page": 7,
+            "fieldTitle": "Impairment(s)",
+            "fieldName": "impairments",
+            "pdfFieldId": "Section5_Impairments",
+            "confidence": "high",
+            "llmResponse": "• Severe mood disturbance with persistent depressive episodes\n• Cognitive impairment affecting concentration and focus\n• Sleep disturbance with insomnia and fragmented sleep\n• Psychomotor slowing impacting daily activities",
+            "source": "Clinical notes (2024-09-15, 2024-10-01)",
+            "isCheckbox": false
+        },
+        {
+            "id": 2,
+            "sectionNumber": 5,
+            "page": 7,
+            "fieldTitle": "Functional Limitation(s)",
+            "fieldName": "functional_limitations",
+            "pdfFieldId": "Section5_FunctionalLimitations",
+            "confidence": "medium",
+            "llmResponse": "• Unable to maintain sustained attention on work tasks\n• Cannot work regular full-time hours due to fatigue\n• Significantly reduced stress tolerance\n• Difficulty with interpersonal work relationships",
+            "source": "Functional assessment (2024-10-01)",
+            "isCheckbox": false
+        },
+        {
+            "id": 3,
+            "sectionNumber": 6,
+            "page": 8,
+            "fieldTitle": "Did you recommend patient stop working?",
+            "fieldName": "stop_working",
+            "pdfFieldId": "Section6_StopWorking_Yes",
+            "confidence": "needs-review",
+            "llmResponse": "Yes, recommended to stop working as of 2024-08-30",
+            "source": "Last worked date (2024-08-30) and severity of symptoms",
+            "isCheckbox": true,
+            "checkboxValue": true,
+            "needsReviewMessage": "Clinical judgment required. Please confirm this recommendation based on patient's current condition severity."
+        },
+        {
+            "id": 4,
+            "sectionNumber": 6,
+            "page": 8,
+            "fieldTitle": "Expected to return to work?",
+            "fieldName": "return_to_work",
+            "pdfFieldId": "Section6_ReturnToWork_Yes",
+            "confidence": "medium",
+            "llmResponse": "Yes - Patient is expected to return to work with continued treatment",
+            "source": "Prognosis indicates '3-6 months with treatment'",
+            "isCheckbox": true,
+            "checkboxValue": true,
+            "needsReviewMessage": "Please verify this aligns with your clinical assessment of the patient's recovery trajectory."
+        },
+        {
+            "id": 5,
+            "sectionNumber": 5,
+            "page": 7,
+            "fieldTitle": "Prognosis - Condition likely to",
+            "fieldName": "prognosis_outcome",
+            "pdfFieldId": "Section5_Prognosis_Improve",
+            "confidence": "medium",
+            "llmResponse": "Improve with continued treatment",
+            "source": "Treatment response and clinical observations",
+            "isCheckbox": true,
+            "checkboxValue": true
+        },
+        {
+            "id": 6,
+            "sectionNumber": 5,
+            "page": 7,
+            "fieldTitle": "Expected Duration",
+            "fieldName": "expected_duration",
+            "pdfFieldId": "Section5_Duration_MoreThan1Year",
+            "confidence": "high",
+            "llmResponse": "More than 1 year",
+            "source": "Based on condition severity and typical recovery timeline",
+            "isCheckbox": true,
+            "checkboxValue": true
+        },
+        {
+            "id": 7,
+            "sectionNumber": 6,
+            "page": 8,
+            "fieldTitle": "When expected to return to work",
+            "fieldName": "return_timeline",
+            "pdfFieldId": "Section6_ReturnTimeline_6to12Months",
+            "confidence": "medium",
+            "llmResponse": "In 6 to 12 months",
+            "source": "Prognosis timeline and current treatment progress",
+            "isCheckbox": true,
+            "checkboxValue": true,
+            "needsReviewMessage": "Please adjust timeline based on your clinical assessment."
+        },
+        {
+            "id": 8,
+            "sectionNumber": 6,
+            "page": 8,
+            "fieldTitle": "Type of work expected",
+            "fieldName": "work_type",
+            "pdfFieldId": "Section6_WorkType_Modified",
+            "confidence": "medium",
+            "llmResponse": "Modified work with reduced hours and stress",
+            "source": "Current part-time capacity assessment indicates gradual return to work is recommended",
+            "isCheckbox": true,
+            "checkboxValue": true
+        },
+        {
+            "id": 9,
+            "sectionNumber": 5,
+            "page": 7,
+            "fieldTitle": "Current Medications",
+            "fieldName": "medications",
+            "pdfFieldId": "Section5_Medications",
+            "confidence": "high",
+            "llmResponse": "Sertraline 100mg daily - Started 2024-09, Ongoing - Minimal improvement noted\nLorazepam 0.5mg PRN - Started 2024-10, Ongoing - For acute anxiety episodes",
+            "source": "Medication history from EMR",
+            "isCheckbox": false
+        },
+        {
+            "id": 10,
+            "sectionNumber": 5,
+            "page": 7,
+            "fieldTitle": "Other Treatments",
+            "fieldName": "treatments",
+            "pdfFieldId": "Section5_Treatments",
+            "confidence": "high",
+            "llmResponse": "CBT (Cognitive Behavioral Therapy) - Weekly sessions - Started 2024-10, Ongoing - Gradual improvement observed",
+            "source": "Treatment notes from psychology referral",
+            "isCheckbox": false
+        }
+    ]
+}
