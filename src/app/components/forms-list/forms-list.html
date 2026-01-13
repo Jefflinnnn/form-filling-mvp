@@ -1,0 +1,88 @@
+<div class="forms-list">
+    <div class="forms-container">
+        <!-- Header -->
+        <div class="page-header">
+            <div>
+                <h1>Forms Management</h1>
+                <p>Manage your medical forms - Currently supporting ISP-2519</p>
+            </div>
+            <a routerLink="/new-form" class="btn-new-form">
+                <i data-lucide="plus-circle"></i>
+                New Form
+            </a>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab" [class.active]="activeTab === 'all'" (click)="setTab('all')">
+                All Forms
+                <span class="tab-count">{{ stats.all }}</span>
+            </button>
+            <button class="tab" [class.active]="activeTab === 'drafted'" (click)="setTab('drafted')">
+                Drafted
+                <span class="tab-count">{{ stats.drafted }}</span>
+            </button>
+            <button class="tab" [class.active]="activeTab === 'review'" (click)="setTab('review')">
+                In Review
+                <span class="tab-count">{{ stats.review }}</span>
+            </button>
+            <button class="tab" [class.active]="activeTab === 'completed'" (click)="setTab('completed')">
+                Completed
+                <span class="tab-count">{{ stats.completed }}</span>
+            </button>
+        </div>
+
+        <!-- Forms Table -->
+        <div class="forms-table-container">
+            <div class="forms-table">
+                <div class="table-header">
+                    <div class="th">Patient</div>
+                    <div class="th">SIN</div>
+                    <div class="th">Provider</div>
+                    <div class="th">Conditions</div>
+                    <div class="th">Status</div>
+                    <div class="th">Date</div>
+                    <div class="th">Actions</div>
+                </div>
+
+                <div *ngFor="let form of filteredForms" class="table-row">
+                    <div class="td">
+                        <div class="patient-cell">
+                            <div class="patient-avatar">{{ getInitials(form.patient) }}</div>
+                            <span>{{ form.patient }}</span>
+                        </div>
+                    </div>
+                    <div class="td">{{ form.sin }}</div>
+                    <div class="td">{{ form.provider }}</div>
+                    <div class="td">
+                        <span class="badge badge-neutral">{{ form.conditions }} condition(s)</span>
+                    </div>
+                    <div class="td">
+                        <span class="badge" [ngClass]="{
+              'badge-success': form.status === 'Completed',
+              'badge-warning': form.status === 'Drafted',
+              'badge-info': form.status === 'In Review'
+            }">{{ form.status }}</span>
+                    </div>
+                    <div class="td">{{ form.date }}</div>
+                    <div class="td">
+                        <div class="action-buttons">
+                            <button class="btn-action btn-view">View</button>
+                            <button class="btn-action btn-edit" *ngIf="form.status === 'Drafted'">Edit</button>
+                            <button class="btn-action btn-download" *ngIf="form.status === 'Completed'">
+                                <i data-lucide="download"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="filteredForms.length === 0" class="empty-state">
+                <div class="empty-icon"><i data-lucide="clipboard-x"></i></div>
+                <h3>No forms found</h3>
+                <p>There are no forms in this category yet.</p>
+                <a routerLink="/new-form" class="btn-empty">Create New Form</a>
+            </div>
+        </div>
+    </div>
+</div>

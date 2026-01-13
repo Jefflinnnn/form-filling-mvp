@@ -1,0 +1,24 @@
+/* Global Styles */
+body {
+    font-family: 'DM Sans', sans-serif;
+    color: #334155;
+    /* Slate 700 - Softer than black */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+    background: #f8fafc;
+}
+
+/* Icons */
+.lucide {
+    width: 24px;
+    height: 24px;
+    stroke-width: 2px;
+}
+
+/* App Content */
+.app-content {
+    min-height: calc(100vh - 64px);
+    background: #f8fafc;
+    /* Slate 50 */
+}

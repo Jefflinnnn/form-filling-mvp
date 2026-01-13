@@ -1,3 +1,13 @@
 import { Routes } from '@angular/router';
+import { Dashboard } from './components/dashboard/dashboard';
+import { FormFillingComponent } from './componenets/form-filling/form-filling';
+import { FormsList } from './components/forms-list/forms-list';
+import { FormSelector } from './components/form-selector/form-selector';
 
-export const routes: Routes = [];
+export const routes: Routes = [
+    { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+    { path: 'dashboard', component: Dashboard },
+    { path: 'new-form', component: FormSelector },
+    { path: 'form/isp-2519', component: FormFillingComponent },
+    { path: 'forms', component: FormsList },
+];

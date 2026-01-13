@@ -1,12 +1,19 @@
-import { Component, signal } from '@angular/core';
+import { Component, AfterViewChecked } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { Navbar } from './components/navbar/navbar';
+
+declare var lucide: any;
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, Navbar],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
-export class App {
-  protected readonly title = signal('isp-2519-mvp');
+export class App implements AfterViewChecked {
+  ngAfterViewChecked() {
+    if (typeof lucide !== 'undefined') {
+      lucide.createIcons();
+    }
+  }
 }

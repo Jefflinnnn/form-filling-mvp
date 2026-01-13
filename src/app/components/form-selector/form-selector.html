@@ -1,0 +1,56 @@
+<div class="form-selector">
+    <div class="selector-container">
+        <!-- Header -->
+        <div class="selector-header">
+            <h1>Select Form Type</h1>
+            <p>Choose the medical form you'd like to complete</p>
+        </div>
+
+        <!-- Forms Grid -->
+        <div class="forms-grid">
+            <a *ngFor="let form of forms" [routerLink]="form.available ? '/form/' + form.id : null"
+                [class.form-card-disabled]="!form.available" class="form-card" [style.border-left-color]="form.color">
+
+                <div class="form-header">
+                    <div class="form-icon" [style.background]="form.color + '15'">
+                        <span [style.color]="form.color">{{ form.icon }}</span>
+                    </div>
+                    <div class="form-status">
+                        <span class="status-badge" [class.status-available]="form.available"
+                            [class.status-coming]="!form.available">
+                            {{ form.available ? 'Available' : 'Coming Soon' }}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-content">
+                    <div class="form-code">{{ form.code }}</div>
+                    <h3 class="form-title">{{ form.title }}</h3>
+                    <p class="form-description">{{ form.description }}</p>
+                </div>
+
+                <div class="form-footer" *ngIf="form.available">
+                    <span class="form-action">
+                        Start Form →
+                    </span>
+                </div>
+                <div class="form-footer-disabled" *ngIf="!form.available">
+                    <span class="form-action-disabled">
+                        Not yet available
+                    </span>
+                </div>
+            </a>
+        </div>
+
+        <!-- Info Section -->
+        <div class="info-section">
+            <div class="info-card">
+                <div class="info-icon">💡</div>
+                <div class="info-content">
+                    <h4>Need Help?</h4>
+                    <p>If you're unsure which form to use, consult with your healthcare provider or contact support.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

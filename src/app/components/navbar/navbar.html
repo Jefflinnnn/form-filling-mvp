@@ -1,0 +1,75 @@
+<nav class="navbar">
+    <div class="navbar-container">
+        <!-- Logo/Brand -->
+        <div class="navbar-brand">
+            <div class="logo">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                    <rect width="32" height="32" rx="8" fill="url(#gradient)" />
+                    <path d="M16 8L22 14L16 20L10 14L16 8Z" fill="white" />
+                    <defs>
+                        <linearGradient id="gradient" x1="0" y1="0" x2="32" y2="32">
+                            <stop offset="0%" stop-color="#667eea" />
+                            <stop offset="100%" stop-color="#764ba2" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+            <span class="brand-name">Project V</span>
+        </div>
+
+        <!-- Navigation Links -->
+        <div class="navbar-links">
+            <a routerLink="/dashboard" routerLinkActive="active" class="nav-link">
+                <i data-lucide="layout-dashboard"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <a routerLink="/new-form" routerLinkActive="active" class="nav-link nav-link-primary">
+                <i data-lucide="plus-circle"></i>
+                <span>New Form</span>
+            </a>
+
+            <a routerLink="/forms" routerLinkActive="active" class="nav-link">
+                <i data-lucide="files"></i>
+                <span>Form Management</span>
+            </a>
+        </div>
+
+        <!-- Profile Menu -->
+        <div class="navbar-profile">
+            <button class="profile-button" (click)="toggleProfileMenu()">
+                <div class="profile-avatar">
+                    {{ providerInitials }}
+                </div>
+                <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor" class="dropdown-icon">
+                    <path fill-rule="evenodd"
+                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                        clip-rule="evenodd" />
+                </svg>
+            </button>
+
+            <!-- Dropdown Menu -->
+            <div class="profile-dropdown" *ngIf="showProfileMenu">
+                <div class="profile-info">
+                    <div class="profile-name">{{ currentProvider.name }}</div>
+                    <div class="profile-credentials">{{ currentProvider.credentials }}</div>
+                    <div class="profile-email">{{ currentProvider.email }}</div>
+                </div>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item">
+                    <i data-lucide="user"></i>
+                    <span>Profile</span>
+                </a>
+                <a href="#" class="dropdown-item">
+                    <i data-lucide="settings"></i>
+                    <span>Settings</span>
+                </a>
+                <div class="dropdown-divider"></div>
+                <button class="dropdown-item logout" (click)="logout()">
+                    <i data-lucide="log-out"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</nav>

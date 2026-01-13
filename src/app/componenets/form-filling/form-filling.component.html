@@ -1,0 +1,211 @@
+<div class="container">
+    <div class="header">
+        <h1>ISP-2519 - Medical Report for CPP Disability Benefits</h1>
+        <p>Project V Medical Forms Platform</p>
+    </div>
+
+    <div class="form-content">
+        <form [formGroup]="formGroup">
+
+            <!-- Section 1: Patient Selection -->
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-number">1</div>
+                    <span>Patient Selection</span>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        Patient Social Insurance Number (SIN)<span class="required">*</span>
+                    </label>
+                    <input type="text" class="form-input" formControlName="patientSIN" placeholder="XXX-XXX-XXX"
+                        maxlength="11" />
+                    <div class="helper-text">Enter the patient's 9-digit SIN to search records</div>
+                </div>
+
+                <button type="button" class="btn-primary" (click)="searchPatient()">
+                    🔍 Search Patient
+                </button>
+
+                <div *ngIf="patient" class="search-result">
+                    <h3>✓ Patient Found</h3>
+                    <div class="patient-info">
+                        <div><strong>Name:</strong> {{ patient.name }}</div>
+                        <div><strong>DOB:</strong> {{ patient.dob }}</div>
+                        <div><strong>Health Number:</strong> {{ patient.healthNumber }}</div>
+                        <div><strong>Last Visit:</strong> {{ patient.lastVisit }}</div>
+                    </div>
+
+                    <div class="patient-conditions"
+                        *ngIf="patient.medicalConditions && patient.medicalConditions.length > 0">
+                        <h4>📋 Existing Medical Conditions</h4>
+                        <p class="helper-text">Click on a condition to add it to the form</p>
+                        <div class="conditions-list">
+                            <div *ngFor="let condition of patient.medicalConditions" class="condition-card"
+                                [class.condition-added]="isConditionAlreadyAdded(condition)"
+                                (click)="selectPatientCondition(condition)">
+                                <div class="condition-codes">
+                                    <span class="code-badge icd10">ICD-10: {{ condition.icd10 }}</span>
+                                    <span class="code-badge icd9">ICD-9: {{ condition.icd9 }}</span>
+                                </div>
+                                <div class="condition-description">{{ condition.description }}</div>
+                                <div class="condition-action" *ngIf="!isConditionAlreadyAdded(condition)">+ Click to add
+                                </div>
+                                <div class="condition-added-label" *ngIf="isConditionAlreadyAdded(condition)">✓ Already
+                                    added</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 2: Medical Conditions -->
+            <div class="section" [class.section-disabled]="!patient">
+                <div class="section-header">
+                    <div class="section-number">2</div>
+                    <span>Medical Conditions (Ranked by Functional Impact)</span>
+                </div>
+
+                <div *ngIf="!patient" class="section-warning">
+                    ⚠️ Please search and select a patient first to add medical conditions.
+                </div>
+
+                <div formArrayName="diagnoses">
+                    <div *ngFor="let diagnosis of diagnoses.controls; let i = index" class="diagnosis-item"
+                        [formGroupName]="i">
+                        <div class="diagnosis-header">
+                            <div class="diagnosis-rank">{{ i + 1 }}</div>
+                            <button type="button" class="btn-remove" (click)="removeDiagnosis(i)">
+                                ✕ Remove
+                            </button>
+                        </div>
+
+                        <div class="code-input-group">
+                            <div class="form-group">
+                                <label class="form-label">ICD-10-CM Code<span class="required">*</span></label>
+                                <input type="text" class="form-input" formControlName="icd10"
+                                    placeholder="e.g., F32.2" />
+                                <div class="helper-text">Enter ICD-10 code</div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">ICD-9-CM Code</label>
+                                <input type="text" class="form-input" formControlName="icd9"
+                                    placeholder="e.g., 296.3" />
+                                <div class="helper-text">Enter ICD-9 or auto-filled from ICD-10</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Condition Description</label>
+                            <input type="text" class="form-input" formControlName="description"
+                                placeholder="Auto-filled from ICD code" />
+                        </div>
+
+                        <div class="supporting-docs" formGroupName="supportingDocs">
+                            <label class="supporting-docs-label">
+                                Supporting Documentation (Optional)
+                            </label>
+
+                            <div class="checkbox-group">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" formControlName="longitudinal" [id]="'longitudinal-' + i" />
+                                    <label [for]="'longitudinal-' + i">Longitudinal clinical notes</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" formControlName="investigation"
+                                        [id]="'investigation-' + i" />
+                                    <label [for]="'investigation-' + i">Medical investigation reports</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" formControlName="specialist" [id]="'specialist-' + i" />
+                                    <label [for]="'specialist-' + i">Specialist's reports</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" formControlName="discharge" [id]="'discharge-' + i" />
+                                    <label [for]="'discharge-' + i">Hospital discharge reports</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" formControlName="other" [id]="'other-' + i" />
+                                    <label [for]="'other-' + i">Other</label>
+                                </div>
+                            </div>
+
+                            <div *ngIf="isOtherChecked(i)">
+                                <input type="text" class="form-input other-input" formControlName="otherText"
+                                    placeholder="Specify other documentation type" />
+                                <div class="llm-search-option">
+                                    🤖 LLM will search patient EMR for this documentation type
+                                </div>
+                                <div class="file-upload" (click)="fileInput.click()">
+                                    <input #fileInput type="file" style="display: none"
+                                        (change)="onFileSelected($event, i)" accept=".pdf,.jpg,.png" />
+                                    <div>📎 Or click to manually attach file</div>
+                                    <div class="helper-text">Accepted: PDF, JPG, PNG</div>
+                                </div>
+                                <div *ngIf="getFileName(i)" class="uploaded-file">
+                                    <span>📄 {{ getFileName(i) }}</span>
+                                    <button type="button" class="btn-remove-file" (click)="removeFile(i)">
+                                        Remove
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="button" class="btn-add" (click)="addDiagnosis()" [disabled]="!canAddMoreConditions()">
+                    <span *ngIf="diagnoses.length < 3">+ Add Medical Condition</span>
+                    <span *ngIf="diagnoses.length >= 3">✓ Maximum 3 conditions reached</span>
+                </button>
+                <div *ngIf="patient && diagnoses.length < 3" class="helper-text" style="margin-top: 0.5rem;">
+                    {{ 3 - diagnoses.length }} condition(s) remaining
+                </div>
+            </div>
+
+            <!-- Section 3: Provider Selection -->
+            <div class="section" [class.section-disabled]="!patient">
+                <div class="section-header">
+                    <div class="section-number">3</div>
+                    <span>Select Healthcare Provider</span>
+                </div>
+
+                <div *ngIf="!patient" class="section-warning">
+                    ⚠️ Please search and select a patient first to choose a healthcare provider.
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        Who is completing this form?<span class="required">*</span>
+                    </label>
+                    <div class="helper-text" style="margin-bottom: 1rem;">
+                        Select from your saved provider profiles
+                    </div>
+
+                    <div class="profile-selector">
+                        <div *ngFor="let provider of providers" class="profile-card"
+                            [class.selected]="selectedProvider?.id === provider.id" (click)="selectProvider(provider)">
+                            <div class="profile-type">{{ provider.type }}</div>
+                            <div class="profile-name">{{ provider.name }}</div>
+                            <div class="profile-details">
+                                {{ provider.credentials }}<br>
+                                CPSO: {{ provider.cpso }}<br>
+                                {{ provider.phone }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="actions">
+                <button type="button" class="btn-secondary" (click)="saveDraft()">
+                    💾 Save Draft
+                </button>
+                <button type="button" class="btn-primary" (click)="generateForm()">
+                    ⚡ Generate Form
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
