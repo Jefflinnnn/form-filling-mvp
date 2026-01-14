@@ -1,3 +1,8 @@
+body {
+    margin: 0;
+    background-color: #f8fafc; /* Light grey background */
+}
+
 .dashboard {
     padding: 2rem;
     max-width: 1400px;
@@ -21,7 +26,7 @@
 .dashboard-header h1 {
     font-size: 2rem;
     font-weight: 700;
-    color: #2d3748;
+    color: #070707;
     margin-bottom: 0.5rem;
 }
 
@@ -35,7 +40,8 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.75rem 1.5rem;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    /*background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);*/
+    background: #3f8dd5;
     color: white;
     border-radius: 8px;
     font-weight: 600;
@@ -101,7 +107,7 @@
 
 .stat-change {
     font-size: 0.8125rem;
-    color: #48bb78;
+    color: #93b745;
 }
 
 /* Recent Section */
@@ -181,7 +187,8 @@
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    /*background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);*/
+    background: #3f8dd5;
     color: white;
     display: flex;
     align-items: center;
@@ -200,28 +207,28 @@
 
 .badge-success {
     background: #c6f6d5;
-    color: #22543d;
+    color: #93b745;
 }
 
 .badge-warning {
     background: #feebc8;
-    color: #7c2d12;
+    color: #d92616;
 }
 
 .badge-info {
     background: #bee3f8;
-    color: #2c5282;
+    color: #3f8dd5;
 }
 
 .badge-neutral {
     background: #e2e8f0;
-    color: #4a5568;
+    color: #070707;
 }
 
 .btn-action {
     padding: 0.5rem 1rem;
     background: #eef2ff;
-    color: #667eea;
+    color: #3f8dd5;
     border: none;
     border-radius: 6px;
     font-weight: 500;
@@ -230,7 +237,7 @@
 }
 
 .btn-action:hover {
-    background: #667eea;
+    background: #3f8dd5;
     color: white;
 }
 
@@ -245,7 +252,7 @@
 .quick-actions h3 {
     font-size: 1.125rem;
     font-weight: 600;
-    color: #2d3748;
+    color: #070707;
     margin-bottom: 1rem;
 }
 
@@ -264,7 +271,7 @@
 }
 
 .action-card:hover {
-    border-color: #667eea;
+    border-color: #3f8dd5;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
 }
@@ -276,7 +283,7 @@
 
 .action-title {
     font-weight: 600;
-    color: #2d3748;
+    color: #070707;
     margin-bottom: 0.25rem;
 }
 

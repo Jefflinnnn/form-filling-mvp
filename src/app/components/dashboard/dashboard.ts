@@ -11,10 +11,10 @@ import { RouterModule } from '@angular/router';
 })
 export class Dashboard {
   stats = [
-    { label: 'Total Forms', value: 24, icon: 'clipboard-list', color: '#667eea', change: '+3 this week' },
-    { label: 'Drafted', value: 5, icon: 'pencil', color: '#f6ad55', change: '2 pending' },
+    { label: 'Total Forms', value: 24, icon: 'clipboard-list', color: '#073C81', change: '+3 this week' },
+    { label: 'Drafted', value: 5, icon: 'pencil', color: '#FFA632', change: '2 pending' },
     { label: 'In Review', value: 3, icon: 'eye', color: '#4299e1', change: 'Awaiting approval' },
-    { label: 'Completed', value: 16, icon: 'check-circle-2', color: '#48bb78', change: '+2 this week' }
+    { label: 'Completed', value: 16, icon: 'check-circle-2', color: '#93b745', change: '+2 this week' }
   ];
 
   recentForms = [

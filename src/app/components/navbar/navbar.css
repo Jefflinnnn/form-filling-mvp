@@ -1,10 +1,11 @@
 .navbar {
-    background: white;
+    background: #073c81;
     border-bottom: 1px solid #e2e8f0;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     position: sticky;
     top: 0;
     z-index: 1000;
+    
 }
 
 .navbar-container {
@@ -24,7 +25,7 @@
     gap: 0.75rem;
     font-weight: 700;
     font-size: 1.125rem;
-    color: #2d3748;
+    color: #070707;
 }
 
 .logo {
@@ -33,7 +34,8 @@
 }
 
 .brand-name {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    /*background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);*/
+    background: #ffffff;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -54,18 +56,18 @@
     border-radius: 8px;
     font-weight: 500;
     font-size: 0.9375rem;
-    color: #4a5568;
+    color: #ffffff;
     text-decoration: none;
     transition: all 0.2s;
     position: relative;
 
     &:hover {
         background: #f7fafc;
-        color: #667eea;
+        color: #3f8dd5;
     }
 
     &.active {
-        color: #667eea;
+        color: #073c81;
         background: #eef2ff;
     }
 
@@ -76,19 +78,22 @@
 }
 
 .nav-link-primary {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    /*background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);*/
+    background: #3f8dd5;
     color: white;
     font-weight: 600;
 
     &:hover {
-        background: linear-gradient(135deg, #5568d3 0%, #653a8b 100%);
+        /*background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);*/
+        background: #3f8dd5;
         color: white;
         transform: translateY(-1px);
         box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
     }
 
     &.active {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        /*background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);*/
+        background: #3f8dd5;
         color: white;
     }
 }
@@ -118,7 +123,8 @@
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    /*background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);*/
+    background: #93b745;
     color: white;
     display: flex;
     align-items: center;
@@ -170,13 +176,13 @@
 
 .profile-name {
     font-weight: 600;
-    color: #2d3748;
+    color: #073c81;
     margin-bottom: 0.25rem;
 }
 
 .profile-credentials {
     font-size: 0.875rem;
-    color: #667eea;
+    color: #3f8dd5;
     font-weight: 500;
     margin-bottom: 0.25rem;
 }
@@ -209,7 +215,7 @@
 
     &:hover {
         background: #f7fafc;
-        color: #667eea;
+        color: #3f8dd5;
     }
 
     svg {
@@ -217,23 +223,23 @@
     }
 
     &:hover svg {
-        color: #667eea;
+        color: #3f8dd5;
     }
 
     &.logout {
-        color: #e53e3e;
+        color: #d92616;
 
         &:hover {
             background: #fff5f5;
-            color: #c53030;
+            color: #d92616;
         }
 
         svg {
-            color: #e53e3e;
+            color: #d92616;
         }
 
         &:hover svg {
-            color: #c53030;
+            color: #d92616;
         }
     }
 }
