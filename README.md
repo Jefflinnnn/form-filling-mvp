@@ -18,7 +18,8 @@ A modern, professional medical forms management platform built with Angular. Cur
 ## 🚀 Tech Stack
 
 - **Framework**: Angular 19+
-- **Language**: TypeScript
+- **Backend**: Python (FastAPI), PyPDFForm
+- **Language**: TypeScript, Python 3.10+
 - **Styling**: CSS with modern design patterns
 - **Icons**: Lucide Icons
 - **Font**: DM Sans (Google Fonts)
@@ -52,6 +53,12 @@ npm install -g @angular/cli
 ng version
 ```
 
+### 4. Install Python (for Backend)
+Ensure you have Python 3.10 or higher installed.
+```bash
+python3 --version
+```
+
 ### Windows Installation
 
 #### 1. Install Node.js and npm
@@ -83,6 +90,10 @@ npm install -g @angular/cli
 ng version
 ```
 
+#### 3. Install Python
+Download and install Python 3.10+ from [python.org](https://www.python.org/downloads/windows/).
+Ensure you check "Add Python to PATH" during installation.
+
 ## 🛠️ Project Setup
 
 ### 1. Clone the Repository
@@ -103,7 +114,17 @@ npm start
 
 The application will be available at `http://localhost:4200/`
 
-### 4. Build for Production
+### 4. Run Backend Server
+Open a new terminal window:
+```bash
+cd backend
+python3 -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
+pip install -r requirements.txt
+uvicorn main:app --reload
+```
+
+### 5. Build for Production
 ```bash
 npm run build
 ```
@@ -114,21 +135,34 @@ The build artifacts will be stored in the `dist/` directory.
 
 ```
 isp-2519-mvp/
+├── backend/                        # Python FastAPI Backend
+│   ├── main.py                     # API Application
+│   ├── requirements.txt            # Python dependencies
+│   └── README.md                   # Backend documentation
 ├── src/
 │   ├── app/
 │   │   ├── components/
 │   │   │   ├── dashboard/          # Dashboard with stats
+│   │   │   ├── form-review/        # Form review & finalization
 │   │   │   ├── form-selector/      # Form type selection
 │   │   │   ├── forms-list/         # Form management
 │   │   │   └── navbar/             # Navigation bar
-│   │   ├── componenets/
+│   │   ├── componenets/            # (Note: Typo in folder name)
 │   │   │   └── form-filling/       # ISP-2519 form component
+│   │   ├── services/
+│   │   │   ├── pdf-backend.service.ts # API communication
+│   │   │   └── pdf.service.ts      # PDF handling logic
+│   │   ├── utils/
+│   │   │   └── pdf-field-mapping.ts # Form field mappings
 │   │   ├── app.routes.ts           # Application routing
 │   │   ├── app.ts                  # Root component
 │   │   └── app.html                # Root template
+│   ├── assets/
+│   │   ├── data/                   # Mock data
+│   │   └── pdfs/                   # PDF Templates
 │   ├── index.html                  # Main HTML file
 │   └── styles.css                  # Global styles
-├── package.json                    # Dependencies
+├── package.json                    # Frontend dependencies
 └── README.md                       # This file
 ```
 
