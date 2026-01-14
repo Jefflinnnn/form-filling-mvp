@@ -146,8 +146,7 @@ isp-2519-mvp/
 │   │   │   ├── form-review/        # Form review & finalization
 │   │   │   ├── form-selector/      # Form type selection
 │   │   │   ├── forms-list/         # Form management
-│   │   │   └── navbar/             # Navigation bar
-│   │   ├── componenets/            # (Note: Typo in folder name)
+│   │   │   ├── navbar/             # Navigation bar
 │   │   │   └── form-filling/       # ISP-2519 form component
 │   │   ├── services/
 │   │   │   ├── pdf-backend.service.ts # API communication
